@@ -54,8 +54,19 @@ public class MyController {
 		if (list.size() == 0) {
 			return "redirect:/login";
 		} else {
-			// todo add user information to session
+			session.setAttribute("user", list.get(0));
 			return "redirect:/profile";
+		}
+	}
+	
+	@RequestMapping("/profile")
+	String showProfilePage(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) {
+			return "redirect:/login";
+		} else {
+			Member user = (Member)session.getAttribute("user");
+			model.addAttribute("user", user);
+			return "profile";
 		}
 	}
 }
