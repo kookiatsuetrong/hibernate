@@ -69,4 +69,13 @@ public class MyController {
 			return "profile";
 		}
 	}
+	
+	@RequestMapping("/create")
+	String showCreatePage(HttpSession session) {
+		if (session.getAttribute("user") == null) {
+			return "redirect:/login";
+		} else {
+			return "create";
+		}
+	}
 }
