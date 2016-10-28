@@ -8,6 +8,8 @@ import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.*;
 
+import javax.servlet.http.*;
+
 @Controller
 public class MyController {
 
@@ -38,5 +40,21 @@ public class MyController {
 	@RequestMapping("/login")
 	String showLoginPage() {
 		return "login";
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	String checkLogin(HttpSession session, 
+			String email, String password) {
+		Session database = factory.openSession();
+		Query query      = database.createQuery(
+			"from User where email = :e and password = sha2(:p, 512)");
+		query.setParameter("e", email);
+		query.setParameter("p", password);
+		List list = query.list();
+		if (list.size() == 0) {
+			return "redirect:/login";
+		} else {
+			return "redirect:/profile";
+		}
 	}
 }
