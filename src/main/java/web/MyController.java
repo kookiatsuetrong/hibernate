@@ -14,7 +14,12 @@ import javax.servlet.http.*;
 public class MyController {
 
 	@RequestMapping("/")
-	String index() {
+	String index(Model model) {
+		Session database = factory.openSession();
+		Query   query    = database.createQuery(
+			"from Post");
+		List<Post> post  = query.list();
+		model.addAttribute("post", post);
 		return "index";
 	}
 
@@ -93,4 +98,15 @@ public class MyController {
 			return "redirect:/profile";
 		}
 	}
+
+	@RequestMapping("/test-update") @ResponseBody
+	int testUpdate() {
+		Session d = factory.openSession();
+		Query   q = d.createQuery(
+			"update Post set topic=:t where id= :x");
+		q.setParameter("t", "ทดสอบ");
+		q.setParameter("x", 1L);
+		return q.executeUpdate();
+	}
+
 }
