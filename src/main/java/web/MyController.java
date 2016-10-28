@@ -20,7 +20,8 @@ public class MyController {
 	String test() {
 		return "test.jsp";
 	}
-
+	
+	/*
 	@RequestMapping("/list") @ResponseBody
 	List showCoffee() {
 		Session database = factory.openSession();
@@ -29,7 +30,13 @@ public class MyController {
 		database.close();
 		return list;
 	}
-
+	*/
+	
 	@Autowired
 	SessionFactory factory;
+	
+	@RequestMapping("/login")
+	String showLoginPage() {
+		return "login";
+	}
 }
