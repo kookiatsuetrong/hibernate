@@ -47,13 +47,14 @@ public class MyController {
 			String email, String password) {
 		Session database = factory.openSession();
 		Query query      = database.createQuery(
-			"from User where email = :e and password = sha2(:p, 512)");
+			"from Member where email = :e and password = sha2(:p, 512)");
 		query.setParameter("e", email);
 		query.setParameter("p", password);
 		List list = query.list();
 		if (list.size() == 0) {
 			return "redirect:/login";
 		} else {
+			// todo add user information to session
 			return "redirect:/profile";
 		}
 	}
