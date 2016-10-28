@@ -18,7 +18,12 @@ insert into member(email, password, name)
 values('owner@myshop.xyz', sha2('hello', 512),
 	'Shop Owner');
 
-
+create table post(
+  id serial,
+  topic varchar(1024),
+  detail varchar(8192),
+  photo varchar(1024),
+  member bigint );
 
 /*
 create database icoffee;

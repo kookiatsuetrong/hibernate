@@ -78,4 +78,19 @@ public class MyController {
 			return "create";
 		}
 	}
+	@RequestMapping(value="/create", method=RequestMethod.POST)
+	String createPost(String topic, String detail, HttpSession session) {
+		Member member = (Member)session.getAttribute("user");
+		if (member == null) {
+			return "redirect:/login";
+		} else {
+			Post post   = new Post();
+			post.topic  = topic;
+			post.detail = detail;
+			post.member = member.id;
+			Session database = factory.openSession();
+			database.save(post);
+			return "redirect:/profile";
+		}
+	}
 }
