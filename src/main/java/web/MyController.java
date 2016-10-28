@@ -1,4 +1,6 @@
 package web;
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import org.hibernate.*;
 import javax.transaction.*;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.*;
 
 import javax.servlet.http.*;
+import org.springframework.web.multipart.*;
 
 @Controller
 public class MyController {
@@ -84,15 +87,28 @@ public class MyController {
 		}
 	}
 	@RequestMapping(value="/create", method=RequestMethod.POST)
-	String createPost(String topic, String detail, HttpSession session) {
+	String createPost(String topic, String detail,
+			MultipartFile photo,
+			HttpSession session) {
 		Member member = (Member)session.getAttribute("user");
 		if (member == null) {
 			return "redirect:/login";
 		} else {
+			String name = UUID.randomUUID().toString();
+			try {
+				byte [ ] data = photo.getBytes();
+				BufferedOutputStream bot = new BufferedOutputStream
+						(new FileOutputStream(
+							"./src/main/resources/public/" + name + ".png"));
+				bot.write(data);
+				bot.close();
+			} catch (Exception e) { }
+			
 			Post post   = new Post();
 			post.topic  = topic;
 			post.detail = detail;
 			post.member = member.id;
+			post.photo  = name + ".png";
 			Session database = factory.openSession();
 			database.save(post);
 			return "redirect:/profile";
