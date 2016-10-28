@@ -1,9 +1,18 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<link rel="stylesheet" href="/main.css" />
-	</head>
-	<body>
-		<p>Hello World!</p>
-	</body>
+<#include "header.html">
+
+<div class="container">
+	<h1>Welcome</h1>
+	<#list post as p>
+	
+	<div>
+		<b>${p.topic}</b>
+		<br>
+		${p.detail}
+		<br><br>
+	</div>
+	
+	</#list>
+</div>
+
+</body>
 </html>
