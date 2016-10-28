@@ -8,7 +8,11 @@
 		<b>${p.topic}</b>
 		<br>
 		${p.detail}
-		<br><br>
+		<br>
+		<#if p.photo??>
+			<img src="/${p.photo}" />
+		</#if>
+		<br>
 	</div>
 	
 	</#list>
